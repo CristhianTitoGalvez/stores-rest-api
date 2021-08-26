@@ -1,6 +1,5 @@
 import os
 import re
-i
 from security import authenticate, identity
 from flask import Flask
 from flask_restful import Api
@@ -11,10 +10,12 @@ from db import db
 from resources.store import Store, StoreList
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db') #Here we say that the SQLAlchemy data.db is gonna live at the root folder of my project
+uri = os.environ.get('DATABASE_URL','sqlite:///data.db')
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 # rest of connection code using the connection string `uri`
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # turns off the flask SQLALchemy modification tracker because the library itself come with this feature
 app.secret_key = 'jose'
 api = Api(app)
