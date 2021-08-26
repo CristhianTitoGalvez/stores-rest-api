@@ -13,13 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # turns off the flask SQLAL
 app.secret_key = 'jose'
 api = Api(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
-
 jwt = JWT(app, authenticate, identity) # jwt creates a new endpoint: /auth. When we call /auth it send username and pass.
-
 
 api.add_resource(Item, '/item/<string:name>') 
 api.add_resource(ItemList, '/items')
